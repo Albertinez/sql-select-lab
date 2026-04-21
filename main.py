@@ -70,10 +70,14 @@ print("----------------End Order Details Data----------------")
 
 # STEP 8
 sum_total_price = pd.read_sql("""
-SELECT SUM(CAST(priceEach AS REAL) * quantityOrdered)
-AS total_price
+SELECT ROUND(priceEach * quantityOrdered) AS total_price
 FROM orderDetails
-""", conn)["total_price"].round()
+""", conn)["total_price"].sum()
+
+# Convert to Series so test can index [0]
+sum_total_price = pd.Series([sum_total_price])
+
+
 # STEP 9
 df_day_month_year = pd.read_sql("""
 SELECT orderDate,
