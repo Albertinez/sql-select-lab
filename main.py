@@ -1,4 +1,3 @@
-
 # STEP 1A
 import sqlite3
 import pandas as pd
@@ -71,7 +70,8 @@ print("----------------End Order Details Data----------------")
 
 # STEP 8
 sum_total_price = pd.read_sql("""
-SELECT ROUND(priceEach * quantityOrdered) AS total_price
+SELECT SUM(CAST(priceEach AS REAL) * quantityOrdered)
+AS total_price
 FROM orderDetails
 """, conn)["total_price"]
 
